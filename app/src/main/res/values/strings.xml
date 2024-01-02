@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">AndroidAss2</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="confirm_passowrd">Confirm Passowrd</string>
+    <string name="welcame">Welcame!!</string>
+    <string name="enter_your_email">Enter Your Email</string>
+    <string name="enter_your_passowrd">Enter Your Passowrd</string>
+    <string name="api_Key">9f527590f1e740f88bf7b12a45e14343</string>
+    <string name="api_Arabic">a150d4bd77mshe3ca071e37cd59ap110788jsn5df8e89b13a0</string>
+    <string name="coin">Coin</string>
+
+</resources>
