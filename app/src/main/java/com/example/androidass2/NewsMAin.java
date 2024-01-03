@@ -47,24 +47,24 @@ public class NewsMAin extends AppCompatActivity implements SelectListner {
                 dialog.setTitle("Fetching News articles....");
                 dialog.show();
 
-                ManegerRequest r1 = new ManegerRequest(this);
                 newsrequest r2 = new newsrequest(this);
 
                 r2.getNewsHeadlines(listener,"general",null);
                 handler.postDelayed(() -> {
                     Toast.makeText(this, "Click on any news to see details", Toast.LENGTH_SHORT).show();
                 }, 2000);
-            }else {
-                dialog = new ProgressDialog(this);
-                dialog.setTitle("Fetching Coin News articles....");
-                dialog.show();
-
-                ManegerRequestCoin r2 =new ManegerRequestCoin(this);
-                r2.getNewsHeadlines(listener,"general",null);
-                handler.postDelayed(() -> {
-                    Toast.makeText(this, "Click on any news to see details", Toast.LENGTH_SHORT).show();
-                }, 2000);
             }
+            // else {
+            //     dialog = new ProgressDialog(this);
+            //     dialog.setTitle("Fetching Coin News articles....");
+            //     dialog.show();
+
+            //     ManegerRequestCoin r2 =new ManegerRequestCoin(this);
+            //     r2.getNewsHeadlines(listener,"general",null);
+            //     handler.postDelayed(() -> {
+            //         Toast.makeText(this, "Click on any news to see details", Toast.LENGTH_SHORT).show();
+            //     }, 2000);
+            // }
 
         }
 
