@@ -65,7 +65,7 @@ public class NewsMAin extends AppCompatActivity implements SelectListner {
             //         Toast.makeText(this, "Click on any news to see details", Toast.LENGTH_SHORT).show();
             //     }, 2000);
             // }
-
+ 
         }
 
 
