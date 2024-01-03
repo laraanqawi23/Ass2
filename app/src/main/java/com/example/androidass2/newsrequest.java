@@ -3,58 +3,46 @@ package com.example.androidass2;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.androidass2.javaClass.NewsApiResponse;
+import com.google.gson.Gson;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import org.json.JSONObject;
 
-public class newsrequest {
-    Context context;
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://newsapi.org/v2/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
+public class  newsrequest{
+    private static final String BASE_URL = "https://newsapi.org/v2/";
+    private static final String EVERYTHING_ENDPOINT = "everything";
 
-
-    public  void getNewsHeadlines(onfetchdatalistener listener ,String category,String query ){
-        CallNewsApi callNewsApi = retrofit.create(CallNewsApi.class);
-        Call<NewsApiResponse> call = callNewsApi.callhealines("",category ,"bitcoin",context.getString(R.string.api_Key));
-
-        try{
-            call.enqueue(new Callback<NewsApiResponse>() {
-                @Override
-                public void onResponse(Call<NewsApiResponse> call, Response<NewsApiResponse> response) {
-                    if (!response.isSuccessful()){
-                        Toast.makeText(context,"Error!",Toast.LENGTH_SHORT ).show();
-                    }
-                    listener.onFetchData(response.body().getArticles(),response.message());
-                }
-
-                @Override
-                public void onFailure(Call<NewsApiResponse> call, Throwable t) {
-                    listener.onError("Request Failed!!");
-                }
-            });
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+    private Context context;
 
     public newsrequest(Context context) {
         this.context = context;
     }
-    public  interface CallNewsApi {
-        @GET("everything")
-        Call<NewsApiResponse> callhealines(
-                @Query("title") String title,
-                @Query("description") String description,
-                @Query("q") String query,
-                @Query("apiKey") String apiKey
-        );
+
+    public void getNewsHeadlines(onfetchdatalistener listener, String category, String query) {
+        String url = BASE_URL + EVERYTHING_ENDPOINT + "?title=" + "&description=" + category + "&q=" + query +
+                "&apiKey=" + context.getString(R.string.api_Key);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Gson gson = new Gson();
+                        NewsApiResponse newsApiResponse = gson.fromJson(response.toString(), NewsApiResponse.class);
+                        listener.onFetchData(newsApiResponse.getArticles(), "Success");
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show();
+                        listener.onError("Request Failed!!");
+                    }
+                });
+
+        VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 }

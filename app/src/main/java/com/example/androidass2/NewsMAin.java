@@ -48,7 +48,9 @@ public class NewsMAin extends AppCompatActivity implements SelectListner {
                 dialog.show();
 
                 ManegerRequest r1 = new ManegerRequest(this);
-                r1.getNewsHeadlines(listener,"general",null);
+                newsrequest r2 = new newsrequest(this);
+
+                r2.getNewsHeadlines(listener,"general",null);
                 handler.postDelayed(() -> {
                     Toast.makeText(this, "Click on any news to see details", Toast.LENGTH_SHORT).show();
                 }, 2000);
